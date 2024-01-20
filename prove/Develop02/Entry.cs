@@ -9,6 +9,11 @@ public class Entry
     {
     }
 
+    public Entry(DateTime date, string entryText)
+    {
+        _date = date;
+        _entryText = entryText;
+    }
     public Entry(DateTime date, string promptText, string entryText)
     {
         _date = date;

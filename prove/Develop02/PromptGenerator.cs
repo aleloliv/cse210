@@ -21,13 +21,6 @@ public class PromptGenerator
             {
                 _prompts.Add(line);
             }
-            // using (StreamReader sr = File.OpenText(filename))
-            // {
-            //     while (!sr.EndOfStream){
-            //         string prompt = sr.ReadLine();
-            //         _prompts.Add(prompt);
-            //     }
-            // }
         }
         catch (IOException e){
             Console.WriteLine("An error occurred");

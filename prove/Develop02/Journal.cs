@@ -32,7 +32,15 @@ public class Journal
                 foreach (Entry entry in _entries)
                 {
                     DateTime date = entry._date;
-                    string prompt = entry._promptText;
+                    string prompt = " ";
+                    if (entry._promptText != null)
+                    {
+                        prompt = entry._promptText;
+                    }
+                    else
+                    {
+                        prompt = entry._promptText = " ";
+                    }
                     string entryText = entry._entryText;
                     string writtenEntry = $"{date.ToString("yyyy-MM-dd HH:mm:ss")},{prompt},{entryText}";
                     sw.WriteLine(writtenEntry);
