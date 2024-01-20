@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using Microsoft.VisualBasic;
 using System.Reflection;
 
+// EXCEEDING REQUIREMENTS: I inserted a function to search for every txt file in the program directory to display them for the user to pick the correct one
+// also, the user can directly write on the journal without having to read a prompt, or if they want to read a prompt they can still, if they decide not for 
+// the prompt, the program will write an empty prompt on the journal.
+
 class Program
 {
     static void Main(string[] args)
