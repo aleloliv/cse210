@@ -84,7 +84,7 @@ public class SaveFileManager
         File.Create(@$"{_filePath}\{_fileName}");
         try 
         {
-            using (StreamWriter sw = File.AppendText(_filePath)) 
+            using (StreamWriter sw = File.AppendText(@$"{_filePath}\{_fileName}"))
             {
                 for (int i = 0; i < saveFiles.Count; i++)
                 {
@@ -92,6 +92,7 @@ public class SaveFileManager
                     string activityName = saveFiles[i]._activityName;
                     sw.WriteLine($"{date.ToString("dd/MM/yyyy HH:mm:ss")},{activityName}");
                 }
+                if (sw != null) sw.Close();
             }
         } 
         catch (IOException e) 

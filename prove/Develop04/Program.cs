@@ -133,10 +133,11 @@ class Program
                         saveFile.PrintFile();
                         break;
                     case 3:
-                        Console.Write("What is the name of the new save file? (DO NOT type the format type)");
+                        Console.Write("What is the name of the new save file? (DO NOT type the format type) ");
                         string fileName = Console.ReadLine();
-                        SaveFile newSaveFile = new SaveFile(DateTime.Now, fileName);
-                        saveFileManager.SaveNewFile(newSaveFile);
+                        SaveFileManager saveNewFiles = new SaveFileManager(@$"{fileName}.txt", @$"log-files", @"log-files");
+                        SaveFile newSaveFile = saveFileManager.ReadFile(@$"{folderPath}\temp.txt");
+                        saveNewFiles.SaveNewFile(newSaveFile);
                         break;
                     case 4:
                         List<string> filesDelete = saveFileManager.EnumerateFiles(folderPath);
