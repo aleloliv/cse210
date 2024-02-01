@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+// EXCEEDING REQUIREMENTS: To exceed the requirements I tried to maintain a log of how many activities were practiced and store this information into .txt files, these
+// files can be loaded and the progress of the user can be save into them.
 class Program
 {
     static void Main(string[] args)
