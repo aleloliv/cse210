@@ -2,80 +2,67 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-public class ReflectionActivity : Activity
+public class ReflectionActivity : Activity // The ReflectionActivity inherist from the Activity class
 {
-    public ReflectionActivity() : base()
+    public ReflectionActivity() : base() // This constructor uses the base blank constructor as a base, this was meant to implement other functionalities but it is actually not necessary in this code
     {
-        _activityName = "Reflection Activity";
-        _description = "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.";
+        _activityName = "Reflection Activity"; // Sets the name of the activity as Reflection Activity
+        _description = "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life."; // Sets the description
     }
-    public override void ActivityMoment()
+    public override void ActivityMoment() // This overrides or overwrhrites the ActivityMoment method from the super-class
     {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
+        Stopwatch stopwatch = new Stopwatch(); // Calls the stopwatch namespace from System.Diagnostics
+        stopwatch.Start(); // Starts the stopwatch
 
-        while (stopwatch.Elapsed.TotalSeconds < _duration)
+        while (stopwatch.Elapsed.TotalSeconds < _duration) // While the time specified by the user is not reached this will repeat
         {
-            Console.WriteLine(GetPrompt());
-            Pause(5);
-            Console.WriteLine(GetReflection());
-            Pause(5);
+            Console.WriteLine(GetPrompt()); // Calls the GetPrompt method from this class
+            Pause(5); // Calls the Pause method from the super-class
+            Console.WriteLine(GetReflection()); // Calls the GetReflection method from this class
+            Pause(5); // Calls the Pause method from the super-class
         }
 
-        stopwatch.Stop();
+        stopwatch.Stop(); // Stops the stopwatch
 
-        End();
+        End(); // Calls the End method from the super-class
     }
 
-    public string GetPrompt()
+    public string GetPrompt() // This picks a random prompt from a list
     {
-        List<string> prompts = new List<string>();
+        List<string> prompts = new List<string>() // Starts the list with the prompts
+        {
+            "Think of a time when you stood up for someone else.",
+            "Think of a time when you did something really difficult.",
+            "Think of a time when you helped someone in need.",
+            "Think of a time when you did something truly selfless."
+        };
+        
+        Random random = new Random(); // Gets a random object
 
-        string prompt1 = "Think of a time when you stood up for someone else.";
-        string prompt2 = "Think of a time when you did something really difficult.";
-        string prompt3 = "Think of a time when you helped someone in need.";
-        string prompt4 = "Think of a time when you did something truly selfless.";
+        int num = random.Next(0, prompts.Count - 1); // Gets a random number ranging from 0 to the number of prompts - 1 as an index
 
-        prompts.Add(prompt1);
-        prompts.Add(prompt2);
-        prompts.Add(prompt3);
-        prompts.Add(prompt4);
-
-        Random random = new Random();
-
-        int num = random.Next(0, prompts.Count - 1);
-
-        return prompts[num];
+        return prompts[num]; // Returns the prompt at the random number index from the list
     }
 
-    public string GetReflection()
+    public string GetReflection() // This picks a random reflection from a list
     {
-        List<string> prompts = new List<string>();
+        List<string> prompts = new List<string>() // Starts the list with the reflections
+        {
+            "Why was this experience meaningful to you?",
+            "Have you ever done anything like this before?",
+            "How did you get started?",
+            "How did you feel when it was complete?",
+            "What made this time different than other times when you were not as successful?",
+            "What is your favorite thing about this experience?",
+            "What could you learn from this experience that applies to other situations?",
+            "What did you learn about yourself through this experience?",
+            "How can you keep this experience in mind in the future?"
+        };
 
-        string reflection1 = "Why was this experience meaningful to you?";
-        string reflection2 = "Have you ever done anything like this before?";
-        string reflection3 = "How did you get started?";
-        string reflection4 = "How did you feel when it was complete?";
-        string reflection5 = "What made this time different than other times when you were not as successful?";
-        string reflection6 = "What is your favorite thing about this experience?";
-        string reflection7 = "What could you learn from this experience that applies to other situations?";
-        string reflection8 = "What did you learn about yourself through this experience?";
-        string reflection9 = "How can you keep this experience in mind in the future?";
+        Random random = new Random(); // Gets a random object
 
-        prompts.Add(reflection1);
-        prompts.Add(reflection2);
-        prompts.Add(reflection3);
-        prompts.Add(reflection4);
-        prompts.Add(reflection5);
-        prompts.Add(reflection6);
-        prompts.Add(reflection7);
-        prompts.Add(reflection8);
-        prompts.Add(reflection9);
+        int num = random.Next(0, prompts.Count - 1); // Gets a random number ranging from 0 to the number of reflections - 1 as an index
 
-        Random random = new Random();
-
-        int num = random.Next(0, prompts.Count - 1);
-
-        return prompts[num];
+        return prompts[num]; // Returns the reflection at the random number index from the list
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 class Program
 {
@@ -25,9 +26,10 @@ class Program
                 Console.Write("Select a choice from the menu: ");
 
                 int selection;
-                while (!int.TryParse(Console.ReadLine(), out selection))
+                if (!int.TryParse(Console.ReadLine(), out selection))
                 {
                     Console.WriteLine("Invalid input. Please enter a number.");
+                    continue; // Skip the rest of the loop and ask for input again
                 }
 
                 Activity activity;
@@ -47,10 +49,10 @@ class Program
                         SaveNow(activity);
                         break;
                     case 4:
-                        return; // Quit the program.
+                        return;
                     default:
-                        Console.WriteLine("Please select 1, 2, or 3");
-                        continue; // Go back to the menu if the input is invalid.
+                        Console.WriteLine("Please select 1, 2, 3, or 4");
+                        continue; // Skip the rest of the loop and ask for input again
                 }
 
                 activity.Start();
@@ -109,9 +111,10 @@ class Program
                     + "\nWhat would you like to do?"
                     + "\n1. Go to Activities"
                     + "\n2. Select a save file to load"
-                    + "\n3. Create a new save file"
-                    + "\n4. Delete a file"
-                    + "\n5. Quit");
+                    + "\n3. Save progress"
+                    + "\n4. Create a new save file"
+                    + "\n5. Delete a file"
+                    + "\n6. Quit");
                 Console.WriteLine();
 
                 int choice;
@@ -126,32 +129,18 @@ class Program
                         Menu();
                         break;
                     case 2:
-                        List<string> files = saveFileManager.EnumerateFiles(folderPath);
-                        Console.WriteLine("\nSelect a file from the list: ");
-                        string file = Console.ReadLine();
-                        SaveFile saveFile = saveFileManager.ReadFile(@$"{folderPath}\{file}");
-                        saveFile.PrintFile();
+                        saveFileManager.LoadSaveFile(folderPath);
                         break;
                     case 3:
-                        Console.Write("What is the name of the new save file? (DO NOT type the format type) ");
-                        string fileName = Console.ReadLine();
-                        SaveFileManager saveNewFiles = new SaveFileManager(@$"{fileName}.txt", @$"log-files", @"log-files");
-                        SaveFile newSaveFile = saveFileManager.ReadFile(@$"{folderPath}\temp.txt");
-                        saveNewFiles.SaveNewFile(newSaveFile);
+                        saveFileManager.SaveProgress(folderPath);
                         break;
                     case 4:
-                        List<string> filesDelete = saveFileManager.EnumerateFiles(folderPath);
-                        Console.WriteLine("\nSelect a file from the list: ");
-                        string fileToDelete = Console.ReadLine();
-                        string filePath = @$"{folderPath}\{fileToDelete}";
-                        Console.Write($"This file {fileToDelete} will be deleted, are you sure? (Y/N) ");
-                        string delete = Console.ReadLine();
-                        if (delete.ToUpper() == "Y")
-                        {
-                            saveFileManager.DeleteFile(filePath, fileToDelete);
-                        }
+                        saveFileManager.CreateNewSaveFile(folderPath);
                         break;
                     case 5:
+                        saveFileManager.DeleteFile(folderPath);
+                        break;
+                    case 6:
                         return;
                     default:
                         Console.Write("Select a valid option: ");
@@ -168,10 +157,22 @@ class Program
 
     static void SaveNow(Activity activity)
     {
-        string fileName = "temp.txt";
-        SaveFileManager saveFileManager = new SaveFileManager(fileName, @"log-files", @"\Develop04");
-        DateTime now = DateTime.Now;
-        SaveFile newSave = new SaveFile(now, activity._activityName);
-        saveFileManager.SaveNewFile(newSave);
+        try
+        {
+            string folderPath = @"log-files";
+            SaveFileManager saveFileManager = new SaveFileManager("temp.txt", folderPath, folderPath);
+
+            DateTime now = DateTime.Now;
+            SaveFile newSaveLine = new SaveFile(now, activity._activityName);
+            List<SaveFile> saveLines = new List<SaveFile> { newSaveLine };
+            SaveFile newSave = new SaveFile(saveLines, saveLines.Count);
+            
+            saveFileManager.SaveNewFile(newSave);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR!");
+            Console.WriteLine(e.Message);
+        }
     }
 }

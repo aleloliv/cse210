@@ -169,7 +169,10 @@
             "cwd": "${workspaceFolder}/prove/Develop04",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
-            "stopAtEntry": false
+            "stopAtEntry": false,
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/prove/Develop04/bin/Debug/net7.0/Develop04.dll"
+            }
         },
 
         {
@@ -248,7 +251,6 @@
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
-        },
-
+        }
     ]
 }
