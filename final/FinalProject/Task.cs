@@ -2,14 +2,14 @@ using System.Globalization;
 
 public class Task
 {
-    public int _taskNumber { get; set; }
-    public string _taskName { get; set; }
-    public string _description { get; set; }
-    public Employee _designer { get; set; }
-    public DateTime _startDate { get; set; }
-    public DateTime _dueDate { get; set; }
-    public Status _status { get; set; }
-    public bool _isComplete { get; set; }
+    public int _taskNumber { get; private set; }
+    private string _taskName { get; set; }
+    private string _description { get; set; }
+    private Employee _designer { get; set; }
+    private DateTime _startDate { get; set; }
+    private DateTime _dueDate { get; set; }
+    private Status _status { get; set; }
+    private bool _isComplete { get; set; }
 
     public Task(int taskNumber, string taskName, string description, Employee designer, DateTime startDate, DateTime dueDate)
     {
@@ -112,6 +112,7 @@ public class Task
 
     public void ChangeTaskDesigner(Employee employee)
     {
-
+        _designer = employee;
+        Console.WriteLine($"Task {_taskName} changed designer to {employee.GetEmployeeInfo()}");
     }
 }

@@ -1,9 +1,9 @@
 public abstract class Employee
 {
-    public int _employeeNumber { get; set; }
-    public string _employeeName { get; set; }
-    public Department _department { get; set; }
-    public double _salary { get; set; }
+    private int _employeeNumber { get; set; }
+    private string _employeeName { get; set; }
+    public Department _department { get; private set; }
+    protected double _salary { get; set; }
 
     public Employee(int employeeNumber, string employeeName, Department department, double salary)
     {

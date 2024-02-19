@@ -3,6 +3,7 @@ using System.Globalization;
 
 public class AudiovisualProject : Project
 {
+    private ProjectType _projectType { get; set; } = ProjectType.Audiovisual;
     public AudiovisualProject(int number, string projectName, Client client, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones) : base(number, projectName, client, startDate, dueDate, projectDesigner, milestones)
     {
     }

@@ -3,8 +3,8 @@ using System.Globalization;
 
 public class HourlyEmployee : Employee
 {
-    public double _workedHours { get; set; }
-    public double _valuePerHour { get; set; }
+    private double _workedHours { get; set; }
+    private double _valuePerHour { get; set; }
     public HourlyEmployee(int employeeNumber, string employeeName, Department department, double salary, double valuePerHour) : base(employeeNumber, employeeName, department, salary)
     {
         _workedHours = 0;

@@ -3,7 +3,7 @@ using System.Globalization;
 
 public class SecurityCameraProject : Project
 {
-    public ProjectType _projectType { get; set; }
+    private ProjectType _projectType { get; set; } = ProjectType.SecurityCamera;
 
     public SecurityCameraProject(int number, string projectName, Client client, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones) : base(number, projectName, client, startDate, dueDate, projectDesigner, milestones)
     {

@@ -2,10 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 public class Client
 {
-    public string _clientName { get; set; }
-    public string _clientCompany { get; set; }
-    public string _phone { get; set; }
-    public string _email { get; set; }
+    private string _clientName { get; set; }
+    private string _clientCompany { get; set; }
+    private string _phone { get; set; }
+    private string _email { get; set; }
 
     public Client(string clientName, string phone, string email)
     {

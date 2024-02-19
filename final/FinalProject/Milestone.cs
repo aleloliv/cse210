@@ -1,9 +1,9 @@
 public class Milestone
 {
-    public string _name { get; set; }
-    public DateTime _date { get; set; }
-    public string _description { get; set; }
-    public bool _isComplete { get; set; }
+    public string _name { get; private set; }
+    private DateTime _date { get; set; }
+    private string _description { get; set; }
+    private bool _isComplete { get; set; }
 
     public Milestone(string name, DateTime date, string description)
     {

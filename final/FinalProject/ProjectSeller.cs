@@ -2,8 +2,8 @@ using System.Globalization;
 
 public class ProjectSeller : Employee
 {
-    public int _projectsSold { get; set; }
-    public double _valuePerProject { get; set; }
+    private int _projectsSold { get; set; }
+    private double _valuePerProject { get; set; }
 
     public ProjectSeller(int employeeNumber, string employeeName, Department department, double salary, double valuePerProject) : base(employeeNumber, employeeName, department, salary)
     {

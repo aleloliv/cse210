@@ -1,7 +1,7 @@
 
 public class ElectricalProject : Project
 {
-    public ProjectType _projetType { get; set; } = ProjectType.Electrical;
+    private ProjectType _projetType { get; set; } = ProjectType.Electrical;
     public ElectricalProject(int number, string projectName, Client client, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones) : base(number, projectName, client, startDate, dueDate, projectDesigner, milestones)
     {
     }

@@ -2,9 +2,9 @@ using System.Globalization;
 
 public class ProjectManager
 {
-    public Employee _manager { get; set; }
-    public List<Project> _projects { get; set; }
-    public List<Employee> _employees { get; set; }
+    private Employee _manager { get; set; }
+    private List<Project> _projects { get; set; }
+    private List<Employee> _employees { get; set; }
 
     public ProjectManager(Employee manager)
     {

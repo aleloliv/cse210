@@ -2,7 +2,7 @@ using System;
 
 public class CablingProject : Project
 {
-    public ProjectType _projetctType { get; set; } = ProjectType.Cabling;
+    private ProjectType _projetctType { get; set; } = ProjectType.Cabling;
     public CablingProject(int number, string projectName, Client client, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones) : base(number, projectName, client, startDate, dueDate, projectDesigner, milestones)
     {
     }
