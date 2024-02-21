@@ -3,7 +3,7 @@ using System;
 public class CablingProject : Project
 {
     private ProjectType _projetctType { get; set; } = ProjectType.Cabling;
-    public CablingProject(int number, string projectName, Client client, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones) : base(number, projectName, client, startDate, dueDate, projectDesigner, milestones)
+    public CablingProject(int number, string projectName, Client client, double value, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones) : base(number, projectName, client, value, startDate, dueDate, projectDesigner, milestones)
     {
     }
 

@@ -5,7 +5,7 @@ public class SecurityCameraProject : Project
 {
     private ProjectType _projectType { get; set; } = ProjectType.SecurityCamera;
 
-    public SecurityCameraProject(int number, string projectName, Client client, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones) : base(number, projectName, client, startDate, dueDate, projectDesigner, milestones)
+    public SecurityCameraProject(int number, string projectName, Client client, double value, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones) : base(number, projectName, client, value, startDate, dueDate, projectDesigner, milestones)
     {
     }
 

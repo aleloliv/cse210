@@ -8,6 +8,7 @@ public abstract class Project
     public string _projectName { get; protected set; }
     protected List<ProjectType> _projectTypes { get; set; }
     protected Client _client { get; set; }
+    protected double _value { get; set; }
     protected DateTime _startDate { get; set; }
     protected DateTime _dueDate { get; set; }
     public Employee _projectDesigner { get; protected set; }
@@ -16,12 +17,13 @@ public abstract class Project
     public List<Task> _tasks { get; protected set; }
     protected bool _isComplete { get; set; }
 
-    public Project(int number, string projectName, Client client, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones)
+    public Project(int number, string projectName, Client client, double value, DateTime startDate, DateTime dueDate, Employee projectDesigner, List<Milestone> milestones)
     {
         _number = number;
         _projectName = projectName;
         _projectTypes = new List<ProjectType>();
         _client = client;
+        _value = value;
         _startDate = startDate;
         _dueDate = dueDate;
         _projectDesigner = projectDesigner;
@@ -106,45 +108,12 @@ public abstract class Project
         }
     }
 
-    public void AddTask(List<Employee> employees)
+    public void AddTask(Task task)
     {
         try
         {
             do
             {
-                Console.Write("What is the task name? ");
-                string taskName = Console.ReadLine();
-                
-                Console.Write("What is the task description? ");
-                string taskDescription = Console.ReadLine();
-                
-                Console.WriteLine("Available Employees:");
-                for (int i = 0; i < employees.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {employees[i].GetEmployeeInfo()}");
-                }
-                
-                if (!int.TryParse(Console.ReadLine(), out int employeeIndex) || employeeIndex < 1 || employeeIndex > employees.Count)
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid employee index.");
-                    continue;
-                }
-                
-                Console.Write("What is the start date? (dd/MM/yyyy HH:mm:ss) ");
-                if (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate))
-                {
-                    Console.WriteLine("Invalid date format. Please enter the date in the specified format.");
-                    continue;
-                }
-                
-                Console.Write("What is the due date? (dd/MM/yyyy HH:mm:ss) ");
-                if (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dueDate))
-                {
-                    Console.WriteLine("Invalid date format. Please enter the date in the specified format.");
-                    continue;
-                }
-
-                Task task = new Task(_tasks.Count, taskName, taskDescription, employees[employeeIndex - 1], startDate, dueDate);
                 _tasks.Add(task);
                 Console.WriteLine("Task added successfully!");
                 break;

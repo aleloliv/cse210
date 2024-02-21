@@ -13,6 +13,38 @@ public class ProjectManager
         _employees = new List<Employee>();
     }
 
+    public List<Project> GetProjects()
+    {
+        return _projects;
+    }
+
+    public List<Employee> GetEmployees()
+    {
+        return _employees;
+    }
+
+    private void AddProject(Project project)
+    {
+        _projects.Add(project);
+    }
+
+    private void RemoveProject(Project project)
+    {
+        _projects.Remove(project);
+    }
+
+    private void AddEmployee(Employee employee)
+    {
+        _employees.Add(employee);
+    }
+
+    private void RemoveEmployee(Employee employee)
+    {
+        _employees.Remove(employee);
+    }
+
+
+
     public void ProjectMenu()
     {
         bool exit = false;
@@ -36,7 +68,7 @@ public class ProjectManager
                 case "2":
                     Console.WriteLine("Enter project number to delete:");
                     int projectNumber = int.Parse(Console.ReadLine());
-                    var projectToDelete = _projects.FirstOrDefault(p => p._number == projectNumber);
+                    var projectToDelete = GetProjects().FirstOrDefault(p => p._number == projectNumber);
                     if (projectToDelete != null)
                     {
                         DeleteProject(projectToDelete);
@@ -49,7 +81,7 @@ public class ProjectManager
                 case "3":
                     Console.WriteLine("Enter project number to change designer:");
                     int projectNumberToChangeDesigner = int.Parse(Console.ReadLine());
-                    var projectToChangeDesigner = _projects.FirstOrDefault(p => p._number == projectNumberToChangeDesigner);
+                    var projectToChangeDesigner = GetProjects().FirstOrDefault(p => p._number == projectNumberToChangeDesigner);
                     if (projectToChangeDesigner != null)
                     {
                         projectToChangeDesigner.ChangeProjectDesigner(projectToChangeDesigner);
@@ -62,7 +94,7 @@ public class ProjectManager
                 case "4":
                     Console.WriteLine("Enter project number to change manager:");
                     int projectNumberToChangeManager = int.Parse(Console.ReadLine());
-                    var projectToChangeManager = _projects.FirstOrDefault(p => p._number == projectNumberToChangeManager);
+                    var projectToChangeManager = GetProjects().FirstOrDefault(p => p._number == projectNumberToChangeManager);
                     if (projectToChangeManager != null)
                     {
                         ChangeProjectManager(projectToChangeManager);
@@ -76,20 +108,20 @@ public class ProjectManager
                     ShowProjects();
                     break;
                 case "6":
-                    if (_projects.Count == 0)
+                    if (GetProjects().Count == 0)
                     {
                         Console.WriteLine("No projects available. Please create a project first.");
                         return;
                     }
 
                     Console.WriteLine("Select a project to manage tasks:");
-                    foreach (var project in _projects)
+                    foreach (var project in GetProjects())
                     {
                         Console.WriteLine($"{project._number}. {project._projectName}");
                     }
 
                     int projectNumberSelect = int.Parse(Console.ReadLine());
-                    var selectedProject = _projects.FirstOrDefault(p => p._number == projectNumberSelect);
+                    var selectedProject = GetProjects().FirstOrDefault(p => p._number == projectNumberSelect);
                     if (selectedProject != null)
                     {
                         TaskMenu(selectedProject);
@@ -111,6 +143,12 @@ public class ProjectManager
 
     public void CreateProject()
     {
+        // Check if there are employees available
+        if (GetEmployees().Count == 0)
+        {
+            Console.WriteLine("No employees available. Please hire employees first.");
+            return;
+        }
         try
         {
             Console.Write("Enter project number: ");
@@ -129,6 +167,10 @@ public class ProjectManager
             // Create a new Client object
             Client client = new Client(clientName, clientPhone, clientEmail);
 
+            // Prompt user for project value
+            Console.Write("Enter project value (dollars): ");
+            double value = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+
             // Prompt user for project start date
             Console.Write("Enter project start date (dd/MM/yyyy HH:mm:ss): ");
             DateTime startDate = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
@@ -138,10 +180,14 @@ public class ProjectManager
             DateTime dueDate = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 
             // Prompt user for project designer details
-            Console.Write("Enter project designer name: ");
-            string designerName = Console.ReadLine();
-            // Create a new Employee object for the project designer
-            Employee projectDesigner = new FullTimeEmployee(1, designerName, Department.Design, 1000.00);
+            Console.WriteLine("Employees:");
+            for(int i = 1; i < GetEmployees().Count; i++)
+            {
+                Console.WriteLine($"{i}. {GetEmployees()[i].GetEmployeeInfo()}");
+            }
+            Console.Write("Enter project designer number: ");
+            int empNum = int.Parse(Console.ReadLine());
+            Employee projectDesigner = GetEmployees()[empNum];            
 
             // Create an empty list of milestones for now
             List<Milestone> milestones = new List<Milestone>();
@@ -162,43 +208,55 @@ public class ProjectManager
             switch (projectSelection)
             {
                 case 1:
-                    project = new ElectricalProject(projectNumber, projectName, client, startDate, dueDate, projectDesigner, milestones);
+                    project = new ElectricalProject(projectNumber, projectName, client, value, startDate, dueDate, projectDesigner, milestones);
                     // Add the project to the list of projects
-                    _projects.Add(project);
+                    AddProject(project);
                     break;
                 case 2:
-                    project = new CablingProject(projectNumber, projectName, client, startDate, dueDate, projectDesigner, milestones);
+                    project = new CablingProject(projectNumber, projectName, client, value, startDate, dueDate, projectDesigner, milestones);
                     // Add the project to the list of projects
-                    _projects.Add(project);
+                    AddProject(project);
                     break;
                 case 3:
-                    project = new AutomationProject(projectNumber, projectName, client, startDate, dueDate, projectDesigner, milestones);
+                    project = new AutomationProject(projectNumber, projectName, client, value, startDate, dueDate, projectDesigner, milestones);
                     // Add the project to the list of projects
-                    _projects.Add(project);
+                    AddProject(project);
                     break;
                 case 4:
-                    project = new AccessControlProject(projectNumber, projectName, client, startDate, dueDate, projectDesigner, milestones);
+                    project = new AccessControlProject(projectNumber, projectName, client, value, startDate, dueDate, projectDesigner, milestones);
                     // Add the project to the list of projects
-                    _projects.Add(project);
+                    AddProject(project);
                     break;
                 case 5:
-                    project = new SecurityCameraProject(projectNumber, projectName, client, startDate, dueDate, projectDesigner, milestones);
+                    project = new SecurityCameraProject(projectNumber, projectName, client, value, startDate, dueDate, projectDesigner, milestones);
                     // Add the project to the list of projects
-                    _projects.Add(project);
+                    AddProject(project);
                     break;
                 case 6:
-                    project = new AudiovisualProject(projectNumber, projectName, client, startDate, dueDate, projectDesigner, milestones);
+                    project = new AudiovisualProject(projectNumber, projectName, client, value, startDate, dueDate, projectDesigner, milestones);
                     // Add the project to the list of projects
-                    _projects.Add(project);
+                    AddProject(project);
                     break;
                 case 7:
-                    project = new FireAlarmDetectionProject(projectNumber, projectName, client, startDate, dueDate, projectDesigner, milestones);
+                    project = new FireAlarmDetectionProject(projectNumber, projectName, client, value, startDate, dueDate, projectDesigner, milestones);
                     // Add the project to the list of projects
-                    _projects.Add(project);
+                    AddProject(project);
                     break;
                 default:
                     Console.WriteLine("Invalid option. Please select a number between 1 and 7.");
                     break;
+            }
+
+            for (int i = 0; i < GetEmployees().Count; i++)
+            {
+                if (GetEmployees()[i]._department == Department.Commercial)
+                {
+                    if (GetEmployees()[i] is ProjectSeller)
+                    {
+                        ProjectSeller seller = (ProjectSeller)GetEmployees()[i];
+                        seller.SellProject();
+                    }
+                }
             }
 
             Console.WriteLine("Project created successfully!");
@@ -210,24 +268,79 @@ public class ProjectManager
         }
     }
 
-
     public void DeleteProject(Project project)
     {
-        _projects.Remove(project);
+        try
+        {
+            do
+            {
+                Console.Write($"Are you sure you want to delete {project._projectName}? (Y/N)");
+                string answer = Console.ReadLine().ToUpper();
+
+                if(answer == "Y")
+                {
+                    RemoveProject(project);
+                    Console.WriteLine($"{project._projectName} deleted.");
+                    break;
+                }
+                else if(answer == "N")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please select Y or N");
+                }
+            } while(true);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR!");
+            Console.WriteLine(e.Message);
+        }
     }
 
     public void ChangeProjectManager(Project project)
     {
+        if (project == null)
+        {
+            Console.WriteLine("Project not found.");
+            return;
+        }
         Employee manager = new Manager(2, "name", Department.Management, 1000.00);
         ProjectManager projectManager = new ProjectManager(manager);
-        projectManager._projects.Add(project);
+        projectManager.AddProject(project);
     }
 
     public void ShowProjects()
     {
-        foreach(Project project in _projects)
+        for(int i = 0; i < GetProjects().Count; i++)
         {
-            Console.WriteLine(project.ProjectDetails());
+            Console.WriteLine($"{i + 1}. {GetProjects()[i].ProjectDetails()}");
+        }
+    }
+
+    public Project SelectProject()
+    {
+        try
+        {
+            ShowProjects();
+            int projNum = int.Parse(Console.ReadLine());
+
+            if (projNum < 1 || projNum > GetProjects().Count)
+            {
+                Console.WriteLine("Invalid project number.");
+                return null;
+            }
+
+            Project project = GetProjects()[projNum - 1];
+            return project;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR!");
+            Console.WriteLine(e.Message);
+            return null;
         }
     }
 
@@ -249,14 +362,15 @@ public class ProjectManager
             switch (choice)
             {
                 case "1":
-                    foreach(Employee e in _employees)
+                    foreach(Employee e in GetEmployees())
                     {
                         if(e._department is Department.Design)
                         {
                             designers.Add(e);
                         }
                     }
-                    project.AddTask(designers);
+                    Task newTask = CreateTask(designers);
+                    project.AddTask(newTask);
                     break;
                 case "2":
                     Console.WriteLine("Enter task number to delete:");
@@ -312,19 +426,124 @@ public class ProjectManager
         } while (!exit);
     }
 
-    public void CreateTask()
+    public Task CreateTask(List<Employee> designers)
     {
-        Console.WriteLine("Not yet implemented");
+        try
+        {
+            // Get user input for task number
+            Console.Write("Enter project number: ");
+            int taskNumber = int.Parse(Console.ReadLine());
+
+            // Get user input for task name
+            Console.Write("Enter task name: ");
+            string taskName = Console.ReadLine();
+
+            // Get user input for task description
+            Console.Write("Enter task description: ");
+            string taskDescription = Console.ReadLine();
+
+            // Get employee assigned to task
+            Console.WriteLine("Which employee is assigned for this task?");
+            for(int i = 1; i < designers.Count; i++)
+            {
+                Console.WriteLine($"{i}. {designers[i].GetEmployeeInfo()}");
+            }
+            Employee taskDesigner = designers[int.Parse(Console.ReadLine())];
+
+            // Get user input for task start date
+            Console.Write("Enter task start date (dd/MM/yyyy HH:mm:ss): ");
+            DateTime startDate = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+            // Get user input for task due date
+            Console.Write("Enter task due date (dd/MM/yyyy HH:mm:ss): ");
+            DateTime dueDate = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+            Task task = new Task(taskNumber, taskName, taskDescription, taskDesigner, startDate, dueDate);
+
+            return task;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR!");
+            Console.WriteLine(e.Message);
+            return null;
+        }
     }
 
-    public void DeleteTask()
+    public void DeleteTask(Project project)
     {
-        Console.WriteLine("Not yet implemented");
+        if (project._tasks.Count == 0)
+        {
+            Console.WriteLine("There are no tasks in this project.");
+            return;
+        }
+        Console.WriteLine("Select task to delete:");
+        ShowProjectTasks(project);
+        int taskNum = int.Parse(Console.ReadLine());
+        Task task = project._tasks[taskNum];
+        project.RemoveTask(task);
     }
 
-    public void ShowProjectTasks()
+    public void ShowProjectTasks(Project project)
     {
-        Console.WriteLine("Not yet implemented");
+        for(int i = 1; i < project._tasks.Count; i++)
+        {
+            Console.WriteLine($"{i}. {project._tasks[i].ShowTaskDetails()}");
+        }
+    }
+
+    public void EmployeeMenu()
+    {
+        try
+        {
+            do
+            {
+                Console.WriteLine("Employee Menu");
+                Console.WriteLine("1. Hire new employee");
+                Console.WriteLine("2. Fire employee");
+                Console.WriteLine("3. Pay employees");
+                Console.WriteLine("4. Show employees");
+                Console.WriteLine("0. Exit");
+
+                int choice;
+                if (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 4)
+                {
+                    Console.WriteLine("Invalid choice. Please enter a number between 0 and 4.");
+                    continue;
+                }
+
+                switch(choice)
+                {
+                    case 1:
+                        Employee employee = HireNewEmployee();
+                        AddEmployee(employee);
+                        break;
+                    case 2:
+                        Console.WriteLine("Select employee:");
+                        for(int i = 1; i<GetEmployees().Count; i++)
+                        {
+                            Console.WriteLine($"{i}. {GetEmployees()[i].GetEmployeeInfo()}");
+                        }
+                        int empNum = int.Parse(Console.ReadLine());
+                        Employee fired = GetEmployees()[empNum];
+                        FireEmployee(fired);
+                        break;
+                    case 3:
+                        PayEmployees(GetEmployees());
+                        break;
+                    case 4:
+                        ShowEmployees();
+                        break;
+                    case 0:
+                        return;
+                }
+            } while(true);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR!");
+            Console.WriteLine(e.Message);
+        }
     }
 
     public Employee HireNewEmployee()
@@ -364,12 +583,12 @@ public class ProjectManager
         switch (department)
         {
             case Department.Management:
-                employee = new Manager(_employees.Count, name, department, salary);
+                employee = new Manager(GetEmployees().Count, name, department, salary);
                 break;
             case Department.Commercial:
                 Console.Write("What is the value per project? ");
                 double value = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
-                employee = new ProjectSeller(_employees.Count, name, department, salary, value);
+                employee = new ProjectSeller(GetEmployees().Count, name, department, salary, value);
                 break;
             case Department.Design:
                 Console.WriteLine("What kind of designer?");
@@ -378,18 +597,18 @@ public class ProjectManager
                 int designerType = int.Parse(Console.ReadLine());
                 if (designerType == 1)
                 {
-                    employee = new FullTimeEmployee(_employees.Count, name, department, salary);
+                    employee = new FullTimeEmployee(GetEmployees().Count, name, department, salary);
                 }
                 else if (designerType == 2)
                 {
                     Console.Write("What is the value per hour? ");
                     double valuePerHour = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
-                    employee = new HourlyEmployee(_employees.Count, name, department, salary, valuePerHour);
+                    employee = new HourlyEmployee(GetEmployees().Count, name, department, salary, valuePerHour);
                 }
                 else
                 {
                     Console.WriteLine("Invalid designer type. Defaulting to Regular.");
-                    employee = new FullTimeEmployee(_employees.Count, name, department, salary);
+                    employee = new FullTimeEmployee(GetEmployees().Count, name, department, salary);
                 }
                 break;
             default:
@@ -402,7 +621,8 @@ public class ProjectManager
 
     public void FireEmployee(Employee employee)
     {
-        _employees.Remove(employee);
+        RemoveEmployee(employee);
+        Console.WriteLine($"Employee {employee.GetEmployeeInfo()} fired!");
     }
 
     public void PayEmployees(List<Employee> employees)
@@ -412,7 +632,7 @@ public class ProjectManager
 
     public void ShowEmployees()
     {
-        foreach(Employee e in _employees)
+        foreach(Employee e in GetEmployees())
         {
             Console.WriteLine(e.GetEmployeeInfo());
         }
